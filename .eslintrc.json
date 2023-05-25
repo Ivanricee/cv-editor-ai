@@ -1,0 +1,7 @@
+{
+  "extends": ["next/core-web-vitals", "prettier"],
+  "rules":{
+    "max-len": ["error", 140],
+    "quotes": [2, "single", { "avoidEscape": true }]
+  }
+}
