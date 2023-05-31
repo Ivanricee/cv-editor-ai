@@ -1,39 +1,35 @@
 import Link from 'next/link'
-import { getCurriculum } from './services/getCurriculum'
-import { InfojobsCv } from './components/InfojobsCv'
-import { iNFOJOBS_CV_ACTION } from './const'
 
 export default async function Home() {
-  // asdfsd = await getOffers()
-  // console.log({ asdfsd })
+  const prod = '/infojobs'
+
   return (
-    <div className="flex flex-col min-h-screen max-h-full w-screen bg-base-100">
-      <main
-        className={
-          'flex flex-wrap justify-center  items-center gap-8 content-center h-screen'
-        }
-      >
-        <section className="w-screen">
-          <InfojobsCv action={iNFOJOBS_CV_ACTION.GET} />
-        </section>
-        <section>
-          <div>
-            <h1>CV Editor Ai</h1>
-            <p>this app allows you to create and edit your cv</p>
-            <p>
-              you can sync your previous information from ifo jobs an save the
-              changes you make
+    <div className="card flex-shrink-0 shadow-2xl bg-base-100 w-[500px] sm:w-screen md:w-3/5 lg:w-3/6 p-10 ">
+      <div className="card-body hero-content text-center">
+        <div className="max-w-md">
+          <h1 className="text-5xl font-bold">CV Editor AI</h1>
+          <div className="py-6">
+            <p className="break-words text-left">
+              Simplifica la creación y edición de tu currículum vitae con
+              inteligencia artificial.
+            </p>
+            <p className="break-words text-left py-3">
+              Sincroniza tus CV con Infojobs y guarda los cambios realizados.
             </p>
           </div>
-          <h2 className="mt-16 mb-8">Que accion deseas realizar</h2>
-          <div className="flex bg-base-200 border gap-8 ">
-            <button className="btn-active border border-b-secondary">
-              Obtener Cv de Infojobs
-            </button>
-            <Link href="/create">Crear nuevo CV</Link>
+          <div className="flex gap-8 justify-center">
+            <Link
+              className="btn btn-outline btn-primary"
+              href={{ pathname: '/edit', query: prod }}
+            >
+              Editar CV de infojobs
+            </Link>
+            <Link className="btn btn-outline " href="/create">
+              Crear CV
+            </Link>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   )
 }

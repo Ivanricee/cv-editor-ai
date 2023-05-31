@@ -1,24 +1,50 @@
-export function useGetCurriculum() {
-  /*
-    Si no hay access_token o refresh_token en suztand
-      getToken
-    Si hay:
-      realizar peticion del action (ej getCurriculum)
+/* eslint-disable react-hooks/exhaustive-deps */
+import { getCV, getToken } from '@/services/getCurriculum'
+import { useBoundStore } from '@/stores/useBoundStore'
+import { type infojobState } from '@/types/types'
+import { useEffect, useState } from 'react'
+interface Props {
+  isFromInfojobs: infojobState
+  code: string
+}
+export function useGetCurriculum({ isFromInfojobs, code }: Props) {
+  const infojobState = useBoundStore((state) => state.infojobState)
+  const token = useBoundStore((state) => state.token)
+  const CVList = useBoundStore((state) => state.CVList)
 
-      Si el action marca error
-      getToken
-      realizar peticion del action nuevamente.
+  const setInfojobState = useBoundStore((state) => state.setInfojobState)
+  const setToken = useBoundStore((state) => state.setToken)
+  const setCVList = useBoundStore((state) => state.setCVList)
 
-  */
+  useEffect(() => {
+    const fetchToken = async () => {
+      const tokenData = await fetch(
+        `http://localhost:3000/api/infojobs?code=${code}`
+      )
+      const { access_token, refresh_token, error_description } =
+        await tokenData.json()
 
-  /* ---------------- getToken----------------------
-    return and store access_token, refresh_token in zustand
-   */
+      if (access_token) {
+        setToken({ access_token, refresh_token })
+      } else {
+        console.log('else error ', error_description)
+        setInfojobState({ loading: false, error: error_description })
+      }
+    }
+    const getInfojobsCV = async () => {
+      const getCV = await fetch(
+        'http://localhost:3000/api/infojobs?get_cv=get_cv'
+      )
+      const dataCvList = await getCV.json()
 
-  /*---------------- trigger Action:---------------------
-    //obtener access_token de suztand
-    getCurriculum({access_token})
-    store curriculums info in zustand
-  */
-  return 'asdfasdf'
+      await setCVList(dataCvList)
+      setInfojobState({ loading: false, error: null })
+    }
+    //Si no hay access_token en suztand --> fetchToken
+    if (!token.access_token) {
+      fetchToken()
+    } else {
+      getInfojobsCV()
+    }
+  }, [token])
 }
