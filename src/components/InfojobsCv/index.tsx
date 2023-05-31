@@ -35,9 +35,15 @@ export function InfojobsCv({ action, code, isFromInfojobs }: Props) {
 
   return (
     <>
-      <label htmlFor="my-modal-5" className="btn" onClick={handleCloseBtn}>
-        open modal
-      </label>
+      <div className="w-screen text-center">
+        <label
+          htmlFor="my-modal-5"
+          className="btn btn-outline "
+          onClick={handleCloseBtn}
+        >
+          Guardar en Infojobs
+        </label>
+      </div>
       {/* Put this part before </body> tag */}
       <input
         type="checkbox"

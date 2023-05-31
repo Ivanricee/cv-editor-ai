@@ -20,7 +20,7 @@ export default async function Home() {
           <div className="flex gap-8 justify-center">
             <Link
               className="btn btn-outline btn-primary"
-              href={{ pathname: '/edit', query: prod }}
+              href={{ pathname: prod }}
             >
               Editar CV de infojobs
             </Link>

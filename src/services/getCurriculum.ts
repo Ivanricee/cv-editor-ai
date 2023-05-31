@@ -1,12 +1,20 @@
+import {
+  BASIC_TOKEN,
+  CLIENT_ID,
+  CLIENT_SECRET,
+  GRANT_TYPE,
+  INFOJOBS_AUTHORIZE,
+  REDIRECT_URL,
+} from '@/app/const'
 import { type cv } from '@/types/types'
 
 /* eslint-disable max-len */
-const basicToken = process.env.NEXT_PUBLIC_BASIC_TOKEN
-const grantType = process.env.NEXT_PUBLIC_GRANT_TYPE
-const clientId = process.env.NEXT_PUBLIC_CLIENT_ID
-const clientSecret = process.env.CLIENT_SECRET
-const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URL
-const infojobsAuthorize = process.env.NEXT_PUBLIC_INFOJOBS_AUTHORIZE
+const basicToken = BASIC_TOKEN
+const grantType = GRANT_TYPE
+const clientId = CLIENT_ID
+const clientSecret = CLIENT_SECRET
+const redirectUri = REDIRECT_URL
+const infojobsAuthorize = INFOJOBS_AUTHORIZE
 
 export async function getToken({ code }: { code: string }) {
   try {
@@ -63,8 +71,8 @@ export async function getCVData(curriculumId: string, access_token: string) {
       const educationJson = await education.json()
       const response = {
         personalData: { ...(await personaldata.json()) },
-        experience: { ...experienceJson.experience },
-        education: { ...educationJson.education },
+        experience: [...experienceJson.experience],
+        education: [...educationJson.education],
         skills: { ...(await skill.json()) },
         futureJob: { ...(await futurejob.json()) },
       }

@@ -38,8 +38,6 @@ export default function EditPage({ searchParams }: Props) {
     <div>
       <div>
         {currentCV !== 0 && <CVEdit />}
-        Mostrar formulario
-        {/* open modal */}
         <InfojobsCv
           action={infoJobsCVAction}
           code={code || ''}
