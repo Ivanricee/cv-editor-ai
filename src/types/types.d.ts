@@ -28,6 +28,7 @@ export interface education {
 export interface experience {
   category: string
   company: string
+  description: string
   finishingDate: Date
   hideSalary: boolean
   id: string
@@ -41,6 +42,7 @@ export interface experience {
   startingDate: Date
   subcategories: any[]
   visible: boolean
+  expertise: { skill: string }[]
 }
 export interface futureJob {
   availabilityToChangeHomeAddress: string
@@ -72,12 +74,25 @@ export interface personalData {
   surname2: string
   vehicleOwner: boolean
 }
+export interface skill {
+  expertise: any[]
+  language: Language[]
+}
+
+export interface Language {
+  comments: string
+  id: number
+  reading: string
+  speaking: string
+  writing: string
+}
 export interface CVList {
   cv: cv
   education: education[]
   experience: experience[]
   futureJob: futureJob
   personalData: personalData
+  skill: skill
 }
 interface cvSlice {
   CVList: CVList[]
