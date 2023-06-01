@@ -57,17 +57,22 @@ export async function getCVData(curriculumId: string, access_token: string) {
       Authorization: `Basic ${basicToken}, Bearer ${access_token}`,
     },
   }
-  const fetchUri = 'https://api.infojobs.net/api/1/curriculum/'
+
+  const infojobsApi = 'https://api.infojobs.net/api'
+  const fetchUri1 = `${infojobsApi}/1/curriculum/`
+  const fetchUri2 = `${infojobsApi}/2/curriculum/`
+  const fetchUri4 = `${infojobsApi}/4/curriculum/`
   return await Promise.all([
-    fetch(`${fetchUri}${curriculumId}/personaldata`, fetchOptions),
-    fetch(`${fetchUri}${curriculumId}/experience`, fetchOptions),
-    fetch(`${fetchUri}${curriculumId}/education`, fetchOptions),
-    fetch(`${fetchUri}${curriculumId}/skill`, fetchOptions),
-    fetch(`${fetchUri}${curriculumId}/futurejob`, fetchOptions),
+    fetch(`${fetchUri2}${curriculumId}/personaldata`, fetchOptions),
+    fetch(`${fetchUri2}${curriculumId}/experience`, fetchOptions),
+    fetch(`${fetchUri1}${curriculumId}/education`, fetchOptions),
+    fetch(`${fetchUri2}${curriculumId}/skill`, fetchOptions),
+    fetch(`${fetchUri4}${curriculumId}/futurejob`, fetchOptions),
     ,
   ])
     .then(async ([personaldata, experience, education, skill, futurejob]) => {
       const experienceJson = await experience.json()
+
       const educationJson = await education.json()
       const response = {
         personalData: { ...(await personaldata.json()) },
