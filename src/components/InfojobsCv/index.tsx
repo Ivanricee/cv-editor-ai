@@ -5,56 +5,54 @@ import { iNFOJOBS_CV_ACTION } from '@/app/const'
 import { useGetCurriculum } from '@/hooks/useGetCurriculum'
 import { infojobState } from '@/types/types'
 import { useBoundStore } from '@/stores/useBoundStore'
-
+//set a global state to call component with different content for edition or creation
 interface Props {
   action: string
   isFromInfojobs: infojobState
   code: string
 }
 export function InfojobsCv({ action, code, isFromInfojobs }: Props) {
-  const [currentLocalCVId, setCurrentLocalCVId] = useState(0)
+  const [currentLocalCVCode, setCurrentLocalCVCode] = useState('')
   const [isCloseModal, setIsCloseModal] = useState(false)
 
   useGetCurriculum({ isFromInfojobs, code })
 
   const infojobState = useBoundStore((state) => state.infojobState)
   const CVList = useBoundStore((state) => state.CVList)
-  const setCurrentCV = useBoundStore((state) => state.setCurrentCV)
+  const setCurrentCvCode = useBoundStore((state) => state.setCurrentCvCode)
 
   const handleCloseBtn = () => {
     setIsCloseModal((state) => !state)
-    setCurrentCV(currentLocalCVId)
+    setCurrentCvCode(currentLocalCVCode)
   }
-  const handleCVSelected = ({ idCv }: { idCv: number }) => {
-    setCurrentLocalCVId(idCv)
+  const handleCVSelected = ({ cvCode }: { cvCode: string }) => {
+    setCurrentLocalCVCode(cvCode)
   }
-
   useEffect(() => {
-    if (CVList.length > 0) setCurrentLocalCVId(CVList[0].cv.id)
+    if (CVList.length > 0) setCurrentLocalCVCode(CVList[0].cv!.code)
   }, [CVList])
 
   return (
     <>
-      <div className="w-screen text-center">
+      <div className="w-full text-center">
         <label
-          htmlFor="my-modal-5"
+          htmlFor="cv-modal"
           className="btn btn-outline "
           onClick={handleCloseBtn}
         >
           Guardar en Infojobs
         </label>
       </div>
-      {/* Put this part before </body> tag */}
       <input
         type="checkbox"
         checked={!isCloseModal}
         onChange={() => () => ''}
-        id="my-modal-5"
+        id="cv-modal"
         className="modal-toggle"
       />
 
-      <section className="modal flex flex-col items-center justify-center">
-        <div className="modal-box w-11/12 max-w-5xl">
+      <section className="modal flex flex-col items-center justify-center ">
+        <div className="modal-box w-[400px] sm:w-7/12 md:w-6/12 lg:w-4/12  max-w-5xl bg-base-200">
           <h3 className="font-bold text-lg">
             Selecciona el CV que deseas editar
           </h3>
@@ -74,7 +72,7 @@ export function InfojobsCv({ action, code, isFromInfojobs }: Props) {
               <div className="modal-action justify-center">
                 <label
                   htmlFor="my-modal-5"
-                  className="btn"
+                  className="btn btn-outline"
                   onClick={handleCloseBtn}
                 >
                   Editar
