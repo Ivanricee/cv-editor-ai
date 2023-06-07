@@ -1,7 +1,3 @@
-export type token = {
-  access_token: string | null
-  refresh_token: string | null
-}
 export type infojobState = {
   loading: boolean
   error: string | null
@@ -47,15 +43,20 @@ export interface experience {
 export interface futureJob {
   availabilityToChangeHomeAddress: string
   availabilityToTravel: string
+  contractTypes: string[]
   employmentStatus: string
   futureJobGoals: string
-  monthlyNewsletter: boolean
+  lastJobSearch: string
+  lastJobSearchDetails: string
   motivationToChange: string
-  newsAnnouncements: boolean
   preferredDestinations: string[]
   preferredPosition: string
+  preferredSalary: string
+  salaryMin: string
+  salaryPeriod: string
   subcategories: string[]
   workDay: string
+  working: boolean
 }
 export interface personalData {
   birthDay: Date
@@ -87,24 +88,25 @@ export interface Language {
   writing: string
 }
 export interface CVList {
-  cv: cv
-  education: education[]
-  experience: experience[]
-  futureJob: futureJob
-  personalData: personalData
-  skill: skill
+  cv?: cv
+  education?: education[]
+  experience?: experience[]
+  futureJob?: futureJob
+  personalData?: personalData
+  skill?: skill
 }
 interface cvSlice {
   CVList: CVList[]
-  currentCV: number | null
+  currentCVCode: string | null
+  setRemainingCvData: (code: string, remainCvData: CVList) => void
   setCVList: (CVList: CVList[]) => void
-  setCurrentCV: (currentCV: number) => void
+  setCurrentCvCode: (currentCvCode: string) => void
 }
 export interface infojobsSlice {
   infojobState: infojobState
   infojobsCreateNew: boolean | null
-  token: token
+  token: boolean
   setInfojobState: (infojobState: infojobState) => void
   setInfojobsCreateNew: (infojobsCreateNew: boolean) => void
-  setToken: (token: token) => void
+  setToken: (token: boolean) => void
 }
