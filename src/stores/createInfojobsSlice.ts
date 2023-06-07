@@ -7,10 +7,7 @@ export const createInfojobsSlice: StateCreator<infojobsSlice> = (set) => ({
     error: null,
   },
   infojobsCreateNew: null,
-  token: {
-    access_token: null,
-    refresh_token: null,
-  },
+  token: false,
   setInfojobState: (infojobState) =>
     set({
       infojobState,
@@ -22,9 +19,6 @@ export const createInfojobsSlice: StateCreator<infojobsSlice> = (set) => ({
 
   setToken: (token) =>
     set({
-      token: {
-        access_token: token.access_token,
-        refresh_token: token.refresh_token,
-      },
+      token: true,
     }),
 })
