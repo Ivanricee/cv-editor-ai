@@ -1,4 +1,9 @@
-import { refreshToken, getCV, getToken } from '@/services/getCurriculum'
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function GET(request: NextRequest) {
+  return NextResponse.json({ infojobs: 'infojobs api' })
+}
+/*import { refreshToken, getCV, getToken } from '@/services/infojobs_services'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -90,3 +95,4 @@ export async function GET(request: NextRequest) {
 
   return response
 }
+*/
