@@ -2,7 +2,7 @@ import { useBoundStore } from '@/stores/useBoundStore'
 import { useEffect, useRef, useState } from 'react'
 
 interface Props {
-  handleCvOption: ({ idCv }: { idCv: number }) => void
+  handleCvOption: ({ cvCode }: { cvCode: string }) => void
 }
 
 export function ListCv({ handleCvOption }: Props) {
@@ -14,13 +14,8 @@ export function ListCv({ handleCvOption }: Props) {
   }, [CVList])
 
   const handleClickSelected = (e: React.MouseEvent<HTMLInputElement>) => {
-    //traer data de los cvs seleccionados.
-    //Guardar todos los cvs in zustand
-    //filter list of cvs with those ids.
-    //trigger function with the array of cv´s
-    const idCv = Number((e.target as HTMLInputElement).value)
-
-    handleCvOption({ idCv })
+    const cvCode = (e.target as HTMLInputElement).value
+    handleCvOption({ cvCode })
   }
   return (
     <section>
@@ -30,19 +25,17 @@ export function ListCv({ handleCvOption }: Props) {
           CVList.map((cvItem, i) => {
             return (
               <label
-                key={cvItem.cv.id}
-                className="label cursor-pointer gap-8 w-1/2 md:w-1/3  content-center"
+                key={cvItem.cv?.id}
+                className="label cursor-pointer gap-8 w-1/2 md:w-5/12 content-center"
               >
-                <span className="label-text text-accent uppercase">
-                  {cvItem.cv.name}
-                </span>
+                <span className="label-text uppercase">{cvItem.cv?.name}</span>
                 <input
                   ref={(e) => (listOfRadio.current[i] = e as HTMLInputElement)}
                   type="radio"
                   name="radio-2"
-                  className="radio checked:bg-blue-500"
+                  className="radio "
                   onClick={handleClickSelected}
-                  value={cvItem.cv.id || ''}
+                  value={cvItem.cv?.code || ''}
                 />
               </label>
             )
