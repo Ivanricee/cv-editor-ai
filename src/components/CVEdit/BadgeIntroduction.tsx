@@ -17,13 +17,16 @@ export default function BadgeIntroduction({
   const getDate = (date: Date) => new Date(date).toDateString()
   return (
     <div className="flex gap-4">
-      <div className="bg-slate-800 rounded-md aspect-square w-[65px] h-[65px]">
+      <div className="bg-base-300 rounded-md aspect-square w-[65px] h-[65px]">
         <Company />
       </div>
       <div>
-        <h2 className="card-title text-left font-normal text-lg">{title}</h2>
-        <p className="text-base text-slate-400 leading-4">{subtitle}</p>
-        <small className=" text-slate-400">
+        {badge && (
+          <span className="badge badge-accent rounded-md">{badge}</span>
+        )}
+        <h2 className="card-title text-left font-semibold text-lg">{title}</h2>
+        <p className="text-base text-zinc-500 leading-4">{subtitle}</p>
+        <small className=" text-zinc-500">
           {getDate(startDate)}
           {' - '}
           {getDate(finishDate)}
