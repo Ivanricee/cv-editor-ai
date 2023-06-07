@@ -12,7 +12,7 @@ interface Props {
 export default function EditPage({ searchParams }: Props) {
   const infojobsCreateNew = useBoundStore((state) => state.infojobsCreateNew)
   const infojobState = useBoundStore((state) => state.infojobState)
-  const currentCV = useBoundStore((state) => state.currentCV)
+  const currentCVCode = useBoundStore((state) => state.currentCVCode)
 
   const infoJobsCVAction = infojobsCreateNew
     ? iNFOJOBS_CV_ACTION.CREATE
@@ -23,7 +23,6 @@ export default function EditPage({ searchParams }: Props) {
     loading: code && scopes && auth_type ? true : false,
     error: null,
   }
-
   if (infojobState.error)
     return (
       <section className="text-center">
@@ -36,8 +35,8 @@ export default function EditPage({ searchParams }: Props) {
     )
   return (
     <div>
-      <div>
-        {currentCV !== 0 && <CVEdit />}
+      <div className="flex flex-col items-center">
+        {currentCVCode && <CVEdit />}
         <InfojobsCv
           action={infoJobsCVAction}
           code={code || ''}
