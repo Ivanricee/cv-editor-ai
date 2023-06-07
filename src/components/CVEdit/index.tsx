@@ -2,70 +2,86 @@ import { useBoundStore } from '@/stores/useBoundStore'
 import { type CVList } from '@/types/types'
 import { useEffect, useRef, useState } from 'react'
 import BadgeIntroduction from './BadgeIntroduction'
+import { APP_API } from '@/app/const'
 
 export default function CVEdit() {
   const [cvInfo, setCvInfo] = useState<CVList | null>(null)
 
-  const currentCV = useBoundStore((state) => state.currentCV)
-  const setCurrentCV = useBoundStore((state) => state.setCurrentCV)
+  const currentCVCode = useBoundStore((state) => state.currentCVCode)
+  const setCurrentCvCode = useBoundStore((state) => state.setCurrentCvCode)
+  const setRemainingCvData = useBoundStore((state) => state.setRemainingCvData)
+
   const CVList = useBoundStore((state) => state.CVList)
 
   useEffect(() => {
-    if (currentCV) {
-      const findCvList = CVList.find((cvItem) => {
-        return currentCV === cvItem.cv.id
-      })
-      if (findCvList) setCvInfo(findCvList)
+    if (currentCVCode) {
+      const getRemainingCvData = async () => {
+        const remainCvData = await fetch(
+          `${APP_API}/getRemainCv?cvCode=${currentCVCode}`
+        )
+        if (!remainCvData.ok) {
+          throw new Error(`Error HTTP: ${remainCvData.status}`)
+        }
+        setRemainingCvData(currentCVCode, await remainCvData.json())
+      }
+      const cvListRemainData = CVList.find(
+        (cvItem) =>
+          currentCVCode === cvItem.cv?.code && Object.keys(cvItem).length > 1
+      )
+      cvListRemainData ? setCvInfo(cvListRemainData) : getRemainingCvData()
     }
-  }, [currentCV])
+  }, [currentCVCode, CVList, setRemainingCvData])
 
   if (cvInfo) {
     const { cv, education, experience, futureJob, personalData } = cvInfo
-    const birthday = new Date(personalData.birthDay as Date)
+    const birthday = new Date(personalData?.birthDay as Date)
     const getDate = (date: Date) => new Date(date).toDateString()
 
     const handleClickSelected = (e: React.MouseEvent<HTMLInputElement>) => {
-      const idCv = Number((e.target as HTMLInputElement).value)
-      setCurrentCV(idCv)
+      const cvCode = (e.target as HTMLInputElement).value
+      setCurrentCvCode(cvCode)
     }
 
     return (
       <>
-        <div className="w-screen px-6">
-          <h1 className="font-bold text-2xl">{cv.name}</h1>
-          {cv.principal && (
-            <p className="text-sm text-slate-500">CV principal</p>
+        <div className="w-full px-6">
+          <h1 className="font-extrabold text-2xl">{cv?.name}</h1>
+          {cv?.principal && (
+            <p className="text-sm text-zinc-500">CV principal</p>
           )}
         </div>
-        <div className="flex gap-4 w-screen py-4 px-6">
-          <section className="w-9/12">
+        <div
+          className="flex flex-wrap-reverse w-[450px] md:flex-nowrap gap-4 py-4 px-6 md:min-w-[750px]
+        lg:w-[900px] justify-center content-center"
+        >
+          <section className="w-full md:w-9/12">
             <section
               aria-label="personal data"
-              className="card shadow-2xl bg-slate-900 text-neutral-content rounded-md mb-6 w-full"
+              className="card shadow-lg mb-6 w-full"
             >
-              <div className="card-body justify-center p-6">
-                <h2 className="card-title text-left font-normal">
-                  {personalData.name} {personalData.surname1}
-                  {personalData.surname2}
+              <div className="card-body bg-base-200 justify-center p-6 rounded-xl">
+                <h2 className="card-title text-left font-bold ">
+                  {personalData?.name} {personalData?.surname1}
+                  {personalData?.surname2}
                 </h2>
-                <small className="text-slate-500 leading-3 text-xs">
+                <small className="text-neutral-500 leading-3 text-xs ">
                   {birthday.toLocaleDateString()}
                 </small>
-                <small className="text-slate-500 leading-3  text-xs">
-                  {personalData.cityName}
+                <small className="text-neutral-500 leading-3  text-xs">
+                  {personalData?.cityName}
                 </small>
-                <p className="text-sm">{personalData.email}</p>
-                <p className="text-sm">{personalData.internationalPhone}</p>
+                <p className="text-sm">{personalData?.email}</p>
+                <p className="text-sm">{personalData?.internationalPhone}</p>
               </div>
             </section>
             <section
               aria-label="experiencia laboral"
-              className="card  shadow-2xl bg-slate-900 text-neutral-content rounded-md mb-6  w-full"
+              className="card shadow-lg mb-6  w-full "
             >
-              <div className="card-body justify-center p-6">
-                <h2>Experiencia laboral</h2>
-                <div className="divider  before:bg-slate-950 after:bg-slate-950 my-2 -mx-5"></div>
-                {experience.map((experienceItm) => {
+              <div className="card-body justify-center bg-base-200 p-6 rounded-xl">
+                <h2 className="font-medium">Experiencia laboral</h2>
+                <div className="divider  before:bg-zinc-400 after:bg-zinc-400 my-2 -mx-3"></div>
+                {experience?.map((experienceItm) => {
                   return (
                     <div key={experienceItm.id}>
                       <BadgeIntroduction
@@ -77,7 +93,7 @@ export default function CVEdit() {
                       <div className="indicator w-full pt-4">
                         <div className="card border border-blue-950 rounded-md w-full">
                           <div className="card-body p-4">
-                            <small className="text-slate-500">
+                            <small className="text-accent-content">
                               Descripción
                             </small>
                             <p>{experienceItm.description}</p>
@@ -86,9 +102,9 @@ export default function CVEdit() {
                                 return (
                                   <div
                                     key={skill.skill}
-                                    className="badge badge-secondary badge-outline"
+                                    className="badge badge-accent"
                                   >
-                                    <small className="text-xs">
+                                    <small className="text-xs ">
                                       {skill.skill}
                                     </small>
                                   </div>
@@ -105,13 +121,13 @@ export default function CVEdit() {
             </section>
             <section
               aria-label="Estudios"
-              className="card  shadow-2xl bg-slate-900 text-neutral-content rounded-md mb-6  w-full"
+              className="card shadow-lg mb-6  w-full"
             >
-              <div className="card-body justify-center p-6">
-                <h2>Estudios</h2>
-                <div className="divider  before:bg-slate-950 after:bg-slate-950 my-2 -mx-5"></div>
+              <div className="card-body bg-base-200 justify-center p-6 rounded-xl">
+                <h2 className="font-medium">Estudios</h2>
+                <div className="divider  before:bg-zinc-400 after:bg-zinc-400 my-2 -mx-3"></div>
                 <div className="flex gap-11 flex-wrap">
-                  {education.map((educItem) => {
+                  {education?.map((educItem) => {
                     return (
                       <div key={educItem.id} className="w-full">
                         <BadgeIntroduction
@@ -119,6 +135,7 @@ export default function CVEdit() {
                           startDate={educItem.startingDate}
                           subtitle={educItem.institutionName}
                           title={educItem.courseCode}
+                          badge={educItem.educationLevelCode}
                         />
                       </div>
                     )
@@ -126,50 +143,90 @@ export default function CVEdit() {
                 </div>
               </div>
             </section>
+            <section
+              aria-label="Situación laboral y preferencias"
+              className="card shadow-lg mb-6  w-full"
+            >
+              <div className="card-body bg-base-200 justify-center p-6 rounded-xl">
+                <h2 className="font-medium">
+                  Situación laboral y preferencias
+                </h2>
+                <div className="divider  before:bg-zinc-400 after:bg-zinc-400 my-2 -mx-3"></div>
+                <div className="flex flex-col gap-3 flex-wrap">
+                  {futureJob?.employmentStatus && (
+                    <span>
+                      <small className="text-zinc-500">Situación laboral</small>
+                      <p>{futureJob.employmentStatus}</p>
+                    </span>
+                  )}
+                  {futureJob?.preferredPosition && (
+                    <span>
+                      <small className="text-zinc-500">Puesto preferido</small>
+                      <p>{futureJob.preferredPosition}</p>
+                    </span>
+                  )}
+                  {futureJob?.motivationToChange && (
+                    <span>
+                      <small className="text-zinc-500">
+                        Motivos para cambiar de empleo
+                      </small>
+                      <p>{futureJob.motivationToChange}</p>
+                    </span>
+                  )}
+                  {futureJob?.futureJobGoals && (
+                    <span>
+                      <small className="text-zinc-500">
+                        Objetivos laborales
+                      </small>
+                      <p>{futureJob.futureJobGoals}</p>
+                    </span>
+                  )}
+                  {futureJob?.salaryMin && (
+                    <span>
+                      <small className="text-zinc-500">
+                        Expectativas salariales
+                      </small>
+                      <p>
+                        Minimo aceptado {futureJob.salaryMin} euros{' '}
+                        {futureJob.salaryPeriod}, deseado{' '}
+                        {futureJob.preferredSalary} {futureJob.salaryPeriod}
+                      </p>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </section>
           </section>
 
-          <section aria-label="Form otions" className="w-3/12">
-            <div
-              aria-label="Cv List"
-              className="card shadow-2xl bg-slate-900 text-neutral-content rounded-md"
-            >
-              <div className="card-body  text-left p-6">
-                <h2 className="card-title  text-left font-normal text-base text-slate-400">
-                  <div className="indicator w-full pt-4">
-                    <div className="card border border-blue-950 rounded-md w-full">
-                      <div className="card-body p-4">
-                        <small className="text-slate-500">Curriculum</small>
-                        <section className="form-control items-center">
-                          {CVList &&
-                            CVList.map((cvItem, i) => {
-                              return (
-                                <div key={cvItem.cv.id}>
-                                  <label
-                                    key={cvItem.cv.id}
-                                    className="label cursor-pointer gap-8 w-1/2 md:w-1/3  content-center"
-                                  >
-                                    <span className="label-text text-accent uppercase">
-                                      {cvItem.cv.name}
-                                    </span>
-                                    <input
-                                      type="radio"
-                                      name="radio-3"
-                                      className="radio checked:bg-blue-500"
-                                      onClick={handleClickSelected}
-                                      value={cvItem.cv.id || ''}
-                                      defaultChecked={
-                                        cvItem.cv.id === currentCV
-                                      }
-                                    />
-                                  </label>
-                                </div>
-                              )
-                            })}
-                        </section>
-                      </div>
-                    </div>
-                  </div>
-                </h2>
+          <section aria-label="Form otions" className="w-1/2 md:w-3/12">
+            <div className="card-body bg-base-200 justify-center p-3 lg:p-6 rounded-xl text-left shadow-md">
+              <div className="card border border-blue-950 rounded-md w-full p-2">
+                <small className="text-accent-content">Curriculum</small>
+                <section className="form-control items-center">
+                  {CVList &&
+                    CVList.map((cvItem, i) => {
+                      return (
+                        <div key={cvItem.cv?.id} className="w-full">
+                          <label
+                            key={cvItem.cv?.id}
+                            className="label cursor-pointer gap-8 w-fullcontent-center"
+                          >
+                            <span className="label-text  overflow-hidden text-ellipsis">
+                              {cvItem.cv?.name}
+                            </span>
+                            <input
+                              type="radio"
+                              name="radio-3"
+                              className="radio checked:bg-default"
+                              onClick={handleClickSelected}
+                              value={cvItem.cv?.code || ''}
+                              defaultChecked={cvItem.cv?.code === currentCVCode}
+                            />
+                          </label>
+                        </div>
+                      )
+                    })}
+                </section>
               </div>
             </div>
           </section>
@@ -178,7 +235,7 @@ export default function CVEdit() {
     )
   }
   return (
-    <div className="flex justify-center items-center w-screen h-screen">
+    <div className="flex justify-center items-center w-full h-screen">
       <h1>Loading data</h1>
     </div>
   )
