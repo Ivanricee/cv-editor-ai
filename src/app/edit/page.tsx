@@ -1,8 +1,7 @@
 'use client'
 
-import { InfojobsCv } from '@/components/InfojobsCv'
+import { ModalInfojobsCv } from '@/components/ModalInfojobsCv'
 import { useBoundStore } from '@/stores/useBoundStore'
-import { iNFOJOBS_CV_ACTION } from '../const'
 import Link from 'next/link'
 import CVEdit from '@/components/CVEdit'
 
@@ -10,13 +9,8 @@ interface Props {
   searchParams: { [key: string]: string | undefined }
 }
 export default function EditPage({ searchParams }: Props) {
-  const infojobsCreateNew = useBoundStore((state) => state.infojobsCreateNew)
   const infojobState = useBoundStore((state) => state.infojobState)
   const currentCVCode = useBoundStore((state) => state.currentCVCode)
-
-  const infoJobsCVAction = infojobsCreateNew
-    ? iNFOJOBS_CV_ACTION.CREATE
-    : iNFOJOBS_CV_ACTION.EDIT
 
   const { code, scopes, auth_type } = searchParams
   const isFromInfojobs = {
@@ -37,11 +31,7 @@ export default function EditPage({ searchParams }: Props) {
     <div>
       <div className="flex flex-col items-center">
         {currentCVCode && <CVEdit />}
-        <InfojobsCv
-          action={infoJobsCVAction}
-          code={code || ''}
-          isFromInfojobs={isFromInfojobs}
-        />
+        <ModalInfojobsCv code={code || ''} isFromInfojobs={isFromInfojobs} />
         {infojobState.loading && (
           <div>
             <h1>
