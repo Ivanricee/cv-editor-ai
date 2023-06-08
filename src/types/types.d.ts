@@ -95,12 +95,16 @@ export interface CVList {
   personalData?: personalData
   skill?: skill
 }
-interface cvSlice {
+export interface cvSlice {
   CVList: CVList[]
   currentCVCode: string | null
   setRemainingCvData: (code: string, remainCvData: CVList) => void
   setCVList: (CVList: CVList[]) => void
   setCurrentCvCode: (currentCvCode: string) => void
+}
+export interface appSlice {
+  isCloseModal: { status: boolean; request: symbol }
+  setIsCloseModal: (request: symbol) => void
 }
 export interface infojobsSlice {
   infojobState: infojobState
