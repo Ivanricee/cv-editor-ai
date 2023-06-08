@@ -1,5 +1,4 @@
-import Company from '../Svg'
-
+import { Company } from '../Svg'
 interface Props {
   title: string
   subtitle: string
