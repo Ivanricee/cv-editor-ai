@@ -1,6 +1,6 @@
-export const iNFOJOBS_CV_ACTION = Object.freeze({
-  EDIT: 'edit',
-  CREATE: 'create',
+export const INFOJOBS_MODAL_REQ = Object.freeze({
+  GET_CV: Symbol(),
+  EDIT_CV: Symbol(),
 })
 export const BASIC_TOKEN = process.env.NEXT_PUBLIC_BASIC_TOKEN
 export const GRANT_TYPE = process.env.NEXT_PUBLIC_GRANT_TYPE
