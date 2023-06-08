@@ -3,7 +3,9 @@ import { type cv } from '@/types/types'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
+  request.headers.get('cookie')
   const cookieAccessToken = request.cookies?.get('access_token') || null
+
   if (cookieAccessToken?.value) {
     try {
       const response: cv[] | cv = await getCV(cookieAccessToken.value)

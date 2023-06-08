@@ -2,6 +2,7 @@ import { refreshToken, getToken } from '@/services/infojobs_services'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
+  request.headers.get('cookie')
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const cookieRToken = request.cookies.get('refresh_token') || null
