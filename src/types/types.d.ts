@@ -1,3 +1,8 @@
+declare global {
+  interface Window {
+    my_modal_3: any
+  }
+}
 export type infojobState = {
   loading: boolean
   error: string | null
