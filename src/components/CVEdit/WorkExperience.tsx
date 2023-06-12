@@ -5,13 +5,24 @@ interface Props {
   workExperience?: experience[]
 }
 export function WorkExperience({ workExperience }: Props) {
+  const handleOpenAiBtn = () => {
+    window.my_modal_3.showModal()
+  }
   return (
     <section
       aria-label="experiencia laboral"
       className="card shadow-lg mb-6  w-full "
     >
       <div className="card-body justify-center bg-base-200 p-6 rounded-xl">
-        <h2 className="font-medium">Experiencia laboral</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="font-medium">Experiencia laboral</h2>
+          <button
+            className="btn btn-outline btn-primary btn-xs"
+            onClick={handleOpenAiBtn}
+          >
+            Enhance with Ai
+          </button>
+        </div>
         <div className="divider  before:bg-zinc-400 after:bg-zinc-400 my-2 -mx-3"></div>
         {workExperience?.map((experienceItm) => {
           return (
