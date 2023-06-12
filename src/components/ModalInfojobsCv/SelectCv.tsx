@@ -28,10 +28,7 @@ export function SelectCv() {
       <h3 className="font-bold text-lg">Selecciona el CV que deseas editar</h3>
       <ListCv handleCvOption={handleCVSelected} />
       <div className="modal-action justify-center">
-        <button
-          className="btn btn-outline btn-primary"
-          onClick={handleCloseBtn}
-        >
+        <button className="btn btn-outline" onClick={handleCloseBtn}>
           Editar
         </button>
       </div>
