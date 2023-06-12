@@ -19,7 +19,6 @@
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "@types/three": "0.150.1",
-    "daisyui": "2.51.6",
     "immer": "^10.0.1",
     "next": "13.4",
     "react": "18.2.0",
@@ -29,6 +28,7 @@
   },
   "devDependencies": {
     "autoprefixer": "10.4.14",
+    "daisyui": "^3.0.20",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
     "eslint-config-prettier": "8.7.0",
