@@ -1,29 +1,22 @@
+import { useEffect, useState } from 'react'
 import { useBoundStore } from '@/stores/useBoundStore'
 import { type CVList } from '@/types/types'
-import { useEffect, useState } from 'react'
-import { APP_API, INFOJOBS_MODAL_REQ } from '@/app/const'
+import { APP_API } from '@/app/const'
 import { PersonalData } from './PersonalData'
 import { WorkExperience } from './WorkExperience'
 import { Education } from './Education'
 import { StatusAndPreferences } from './StatusAndPreferences'
-import { SkeletonCV } from '../skeletonCV'
+import { SkeletonCV } from '../SkeletonCV'
+import { CVSettings } from './CVSettings'
+import { ModalEnhancerAI } from '../ModalEnhancerAI'
 
 export default function CVEdit() {
   const [cvInfo, setCvInfo] = useState<CVList | null>(null)
-
   const currentCVCode = useBoundStore((state) => state.currentCVCode)
-  const setCurrentCvCode = useBoundStore((state) => state.setCurrentCvCode)
   const setRemainingCvData = useBoundStore((state) => state.setRemainingCvData)
-  const setIsCloseModal = useBoundStore((state) => state.setIsCloseModal)
   const CVList = useBoundStore((state) => state.CVList)
-  const handleClickSelected = (e: React.MouseEvent<HTMLInputElement>) => {
-    const cvCode = (e.target as HTMLInputElement).value
-    setCvInfo(null)
-    setCurrentCvCode(cvCode)
-  }
-  const handleCloseBtn = () => {
-    setIsCloseModal(INFOJOBS_MODAL_REQ.EDIT_CV)
-  }
+
+  const handleClickRefreshCVInfo = () => setCvInfo(null)
 
   useEffect(() => {
     if (currentCVCode) {
@@ -36,18 +29,18 @@ export default function CVEdit() {
         }
         setRemainingCvData(currentCVCode, await remainCvData.json())
       }
-      const cvListRemainData = CVList.find(
+
+      const cvListRemain = CVList.find(
         (cvItem) =>
           currentCVCode === cvItem.cv?.code && Object.keys(cvItem).length > 1
       )
-      cvListRemainData ? setCvInfo(cvListRemainData) : getRemainingCvData()
+      cvListRemain ? setCvInfo(cvListRemain) : getRemainingCvData()
     }
   }, [currentCVCode, CVList, setRemainingCvData])
 
   if (!cvInfo) return <SkeletonCV />
 
   const { cv, education, experience, futureJob, personalData } = cvInfo
-
   return (
     <>
       <div className="w-full px-6">
@@ -64,49 +57,11 @@ export default function CVEdit() {
           <Education education={education} />
           <StatusAndPreferences statusAndPreferences={futureJob} />
         </section>
-
         <section aria-label="Form otions" className="w-1/2 md:w-3/12">
-          <div className="card-body bg-base-200 justify-center p-3 lg:p-6 rounded-xl text-left shadow-md">
-            <div className="card border border-blue-950 rounded-md w-full p-2">
-              <small className="text-accent-content">Curriculum</small>
-              <section className="form-control items-center">
-                {CVList &&
-                  CVList.map((cvItem, i) => {
-                    return (
-                      <div key={cvItem.cv?.id} className="w-full">
-                        <label
-                          key={cvItem.cv?.id}
-                          className="label cursor-pointer gap-8 w-fullcontent-center"
-                        >
-                          <span className="label-text  overflow-hidden text-ellipsis">
-                            {cvItem.cv?.name}
-                          </span>
-                          <input
-                            type="radio"
-                            name="radio-3"
-                            className="radio checked:bg-default"
-                            onClick={handleClickSelected}
-                            value={cvItem.cv?.code || ''}
-                            defaultChecked={cvItem.cv?.code === currentCVCode}
-                          />
-                        </label>
-                      </div>
-                    )
-                  })}
-              </section>
-            </div>
-            <div className="w-full text-center">
-              <label
-                htmlFor="cv-modal"
-                className="btn btn-outline "
-                onClick={handleCloseBtn}
-              >
-                Guardar en Infojobs
-              </label>
-            </div>
-          </div>
+          <CVSettings handleClickRefreshCVInfo={handleClickRefreshCVInfo} />
         </section>
       </div>
+      <ModalEnhancerAI cvInfo={cvInfo} />
     </>
   )
 }
