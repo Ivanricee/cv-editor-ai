@@ -64,7 +64,7 @@ export function SkeletonCV() {
                   <div className="flex items-center pl-4 w-5/6">
                     <div
                       role="status"
-                      className="space-y-2.5 animate-pulse max-w-lg"
+                      className="space-y-2.5 animate-pulse max-w-lg w-full"
                     >
                       <div className="flex items-center w-full space-x-2">
                         <div className="h-2.5 rounded-full bg-zinc-400 w-40"></div>
@@ -73,9 +73,20 @@ export function SkeletonCV() {
                         <div className="h-2 rounded-full bg-zinc-400 w-16"></div>
                       </div>
                       <div className="flex items-center w-full space-x-2">
-                        <div className="h-2 rounded-full bg-zinc-400 w-20"></div>
+                        <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
                       </div>
-
+                      <div className="flex items-center w-full space-x-2">
+                        <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+                        <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+                      </div>
+                      <div className="flex items-center w-full space-x-2">
+                        <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+                        <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+                        <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+                      </div>
+                      <div className="flex items-center w-full space-x-2">
+                        <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+                      </div>
                       <div className="flex items-center w-full space-x-2 max-w-[480px]">
                         <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
                         <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
