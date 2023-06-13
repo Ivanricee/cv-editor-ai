@@ -8,7 +8,6 @@ import { Education } from './Education'
 import { StatusAndPreferences } from './StatusAndPreferences'
 import { SkeletonCV } from '../SkeletonCV'
 import { CVSettings } from './CVSettings'
-import { ModalEnhancerAI } from '../ModalEnhancerAI'
 
 export default function CVEdit() {
   const [cvInfo, setCvInfo] = useState<CVList | null>(null)
@@ -61,7 +60,6 @@ export default function CVEdit() {
           <CVSettings handleClickRefreshCVInfo={handleClickRefreshCVInfo} />
         </section>
       </div>
-      <ModalEnhancerAI cvInfo={cvInfo} />
     </>
   )
 }
