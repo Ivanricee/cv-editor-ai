@@ -6,10 +6,11 @@ interface Props {
   workExperience?: experience
 }
 export function WorkDescription({ workExperience }: Props) {
-  const refTextArea = useRef(null)
-  console.log('workExperience ', workExperience)
+  const textareaRef = useRef(null)
   useEffect(() => {
-    if (refTextArea) refTextArea.current.autoFocus
+    if (textareaRef.current) {
+      textareaRef.current.focus()
+    }
   }, [])
   return (
     <div className="flex flex-col justify-between h-full">
@@ -33,11 +34,11 @@ export function WorkDescription({ workExperience }: Props) {
                 <div className="card-body p-4">
                   <small className="text-accent-content">Descripción</small>
                   <textarea
-                    ref={refTextArea}
+                    ref={textareaRef}
                     autoFocus
                     className="textarea textarea-accent bg-base-150 foc"
                     placeholder="Description"
-                    value={workExperience?.description}
+                    defaultValue={workExperience?.description}
                   ></textarea>
                   <div className="inline-flex gap-2 flex-wrap pt-4 opacity-70">
                     {workExperience?.expertise.map((skill) => {
