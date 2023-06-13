@@ -2,6 +2,9 @@ export const INFOJOBS_MODAL_REQ = Object.freeze({
   GET_CV: Symbol(),
   EDIT_CV: Symbol(),
 })
+export const CV_TYPE_AI = Object.freeze({
+  W_EXPERIENCE: Symbol(),
+})
 export const BASIC_TOKEN = process.env.NEXT_PUBLIC_BASIC_TOKEN
 export const GRANT_TYPE = process.env.NEXT_PUBLIC_GRANT_TYPE
 export const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
