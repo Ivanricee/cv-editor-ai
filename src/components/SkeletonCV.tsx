@@ -131,3 +131,45 @@ export function SkeletonCV() {
     </>
   )
 }
+
+export function SkeletonAI() {
+  return (
+    <section className="bg-base-250 w-full rounded-lg card mb-6 animate-pulse flex flex-row flex-wrap p-6">
+      <div className="w-full space-x-2">
+        <div className="h-2.5 rounded-full bg-zinc-400 w-40"></div>
+      </div>
+      <div className="divider  before:bg-zinc-400 after:bg-zinc-400 my-2 -mx-3"></div>
+      <div className="flex items-center w-full">
+        <div
+          role="status"
+          className="space-y-2.5 animate-pulse max-w-lg w-full"
+        >
+          <div className="flex items-center w-full space-x-2">
+            <div className="h-2 rounded-full bg-zinc-400 w-16"></div>
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+          </div>
+          <div className="flex items-center w-full space-x-2">
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+          </div>
+          <div className="flex items-center w-full space-x-2">
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+          </div>
+          <div className="flex items-center w-full space-x-2">
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+          </div>
+          <div className="flex items-center w-full space-x-2">
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+          </div>
+          <div className="flex items-center w-full space-x-2 max-w-[480px]">
+            <div className="h-2 rounded-full bg-zinc-400 w-full"></div>
+            <div className="h-2 rounded-full bg-zinc-400 w-24"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
