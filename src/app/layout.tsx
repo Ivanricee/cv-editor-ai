@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Cv Editor Ai',
-  description: 'Create & edit your CV',
+  description: 'Create & edit your CV with Artificial intelligence',
 }
 
 export default function RootLayout({
