@@ -12,3 +12,4 @@ export const CLIENT_SECRET = process.env.CLIENT_SECRET
 export const REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URL
 export const INFOJOBS_AUTHORIZE = process.env.NEXT_PUBLIC_INFOJOBS_AUTHORIZE
 export const APP_API = process.env.NEXT_PUBLIC_APP_API
+export const OPENAI_TOKEN = process.env.OPENAI_TOKEN
